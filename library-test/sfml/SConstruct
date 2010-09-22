@@ -1,3 +1,4 @@
 Program("time", "time.cpp", LIBS = ["sfml-system", "sfml-window"])
 Program("graphics", "graphics.cpp", LIBS = ["sfml-system", "sfml-window", "sfml-graphics"])
+Program("gfx", "gfx.cpp", LIBS = ["sfml-system", "sfml-window", "sfml-graphics"])
 
