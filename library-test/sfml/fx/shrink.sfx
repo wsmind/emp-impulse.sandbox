@@ -1,0 +1,8 @@
+texture framebuffer
+
+effect
+{
+	vec4 color = framebuffer(_in * 4.0);
+	_out = color;
+}
+
