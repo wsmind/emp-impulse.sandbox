@@ -1,0 +1,2 @@
+env = Environment(tools=['mingw'], CPPPATH=[], LIBPATH=[])
+env.Program("wind", "wind.cpp", LIBS = [])
