@@ -3,6 +3,7 @@
 #include <cstring>
 #include <iostream>
 #include <list>
+#include <SFML/Graphics.hpp>
 
 #define SCREEN_WIDTH 60
 #define SCREEN_HEIGHT 20
@@ -11,6 +12,7 @@ struct Vector2
 {
 	float x;
 	float y;
+	Vector2() {}
 	Vector2(float x, float y) : x(x), y(y) {}
 };
 
@@ -40,12 +42,12 @@ static Vector2 getWind(Vector2 point)
 		{
 			angle -= 2.0f * M_PI;
 		}
-		
+
 		if (fabs(angle) < it->angle)
 		{
 			float distanceNorm2 = distance.x * distance.x + distance.y * distance.y;
 			float coefficient = (1 - fabs(angle / it->angle)) * (1 - (distanceNorm2) / (it->orientation.x * it->orientation.x + it->orientation.y * it->orientation.y));
-			
+
 			if (coefficient > 0)
 			{
 				ret.x += distance.x / sqrtf(distanceNorm2) * it->power * coefficient;
@@ -56,28 +58,78 @@ static Vector2 getWind(Vector2 point)
 	return ret;
 };
 
+struct Particle
+{
+	sf::Sprite sprite;
+	Vector2 position;
+	Vector2 gravitySpeed;
+};
+
+static float gravity = 50.0f;
+
 int main(int argc, char **argv)
 {
-	windFields.push_back(Field(Vector2(5, 10), Vector2(50, 0), M_PI / 16.0f, 9));
-	
-	for (int i = 0; i < SCREEN_HEIGHT; ++i)
+	windFields.push_back(Field(Vector2(100, 500), Vector2(600, -200), M_PI / 8.0f, 1000.0f));
+
+	// Create the main rendering window
+	sf::RenderWindow window(sf::VideoMode(800, 600, 32), "SFML Graphics");
+
+	// Load the sprite image from a file
+	sf::Image particleImage;
+	if (!particleImage.LoadFromFile("particle.png"))
 	{
-		for (int j = 0; j < SCREEN_WIDTH; ++j)
-		{
-			Vector2 wind = getWind(Vector2(j, i));
-			int norm = sqrtf(wind.x * wind.x + wind.y * wind.y);
-			if (norm < 0)
-			{
-				norm = 0;
-			}
-			else if (norm > 9)
-			{
-				norm = 9;
-			}
-			std::cout << (char)('0' + norm);
-		}
-		std::cout << std::endl;
+		std::cout << "Error loading the particle." << std::endl;
 	}
-	
+
+	std::list<Particle> particles;
+
+	float timeout = 0;
+
+	// Start game loop
+	while (window.IsOpened())
+	{
+		float elapsedTime = window.GetFrameTime();
+		
+		// Process events
+		sf::Event event;
+		while (window.GetEvent(event))
+		{
+			// Close window : exit
+			if (event.Type == sf::Event::Closed)
+			{
+				window.Close();
+			}
+		}
+
+		timeout += elapsedTime;
+		if (timeout > 1.0f)
+		{
+			Particle particle;
+			particle.sprite.SetImage(particleImage);
+			particle.position.x = rand() / (float)RAND_MAX * 800.0f;
+			particle.position.y = 0;
+			particle.gravitySpeed.x = 0;
+			particle.gravitySpeed.y = gravity * (0.9f + 0.2f * rand() / (float)RAND_MAX);
+			particles.push_back(particle);
+			timeout = 0;
+		}
+
+		// Clear the screen (fill it with zhite color)
+		window.Clear(sf::Color(255, 255, 255));
+
+		for (std::list<Particle>::iterator it = particles.begin(); it != particles.end(); ++it)
+		{
+			Vector2 wind = getWind(it->position);
+			it->position.x += (it->gravitySpeed.x + wind.x) * elapsedTime;
+			it->position.y += (it->gravitySpeed.y + wind.y) * elapsedTime;
+			
+			it->sprite.SetPosition(it->position.x, it->position.y);
+			window.Draw(it->sprite);
+		}
+		
+		// Display window contents on screen
+		window.Display();
+	}
+
 	return EXIT_SUCCESS;
 }
