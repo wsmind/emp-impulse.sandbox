@@ -1,5 +1,9 @@
 The mushroom you need for the graphics example is available here:
 http://emp.fr.nf/~absln1/mushroom.jpg
 
+The two images for the parallax test are here:
+http://emp.fr.nf/~absln1/background.jpg
+http://emp.fr.nf/~absln1/belt.png
+
 Please don't push it ;)
 
