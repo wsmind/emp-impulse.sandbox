@@ -4,4 +4,4 @@ if os.name == "nt":
 else:
 	t = ["default"]
 env = Environment(tools = t)
-env.Program("bin/proto", Glob("src/*/*.cpp"), CPPPATH = ["include", "../../dependency-pack/include"], LIBPATH = ["../../dependency-pack/lib/mingw"], LIBS = ["sfml-system", "sfml-window", "sfml-graphics", "lua5.1"])
+env.Program("bin/proto", Glob("src/*/*.cpp"), CPPPATH = ["include"], LIBS = ["sfml-system", "sfml-window", "sfml-graphics", "lua5.1"])
