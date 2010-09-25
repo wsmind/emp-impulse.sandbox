@@ -1,15 +1,14 @@
 // entry point
 
-#include <scene/Scene.hpp>
+#include <game/World.hpp>
 
-using namespace scene;
+using namespace game;
 
 int main()
 {
-	//SceneWindow *window = new SceneWindow(1024, 768, false);
-	
-	//delete window;
+	World world;
+	world.loadMap();
+	world.run();
 	
 	return 0;
 }
-
