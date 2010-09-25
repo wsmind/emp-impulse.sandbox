@@ -1,0 +1,37 @@
+texture framebuffer
+
+effect
+{
+	// basic (unoptimized) blur
+	/*vec4 color = framebuffer(_in + vec2(-0.01, 0.0));
+	color += framebuffer(_in + vec2(0.01, 0.0));
+	color += framebuffer(_in + vec2(0.0, 0.01));
+	color += framebuffer(_in + vec2(0.0, -0.01));
+	color *= 0.25;*/
+	
+	// desaturate
+	/*vec4 color = framebuffer(_in);
+	float luminance = 0.3 * color.r + 0.59 * color.g + 0.11 * color.b;
+	_out = (vec4(luminance, luminance, luminance, 1.0) + color) * 0.5;*/
+	
+	// contrast
+	/*vec4 color = framebuffer(_in);
+	vec4 delta = color - vec4(0.5, 0.5, 0.5, 1.0);
+	_out = color + delta * 4.0;*/
+	
+	// saturation
+	/*vec4 color = framebuffer(_in);
+	float luminance = 0.3 * color.r + 0.59 * color.g + 0.11 * color.b;
+	vec4 delta = color - vec4(luminance, luminance, luminance, 1.0);
+	_out = color + delta * 2.0;*/
+	
+	// both saturation and contrast
+	vec4 color = framebuffer(_in);
+	vec4 colorCorrection = vec4(0.5, 0.5, 0.5, 0.0);
+	float luminance = 0.3 * color.r + 0.59 * color.g + 0.11 * color.b;
+	vec4 saturationDelta = color - vec4(luminance, luminance, luminance, 1.0);
+	color = color + saturationDelta * 2.0;
+	vec4 contrastDelta = color - vec4(0.5, 0.5, 0.5, 1.0);
+	_out = color + contrastDelta * 2.0 + colorCorrection;
+}
+

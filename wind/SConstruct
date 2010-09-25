@@ -1,0 +1,2 @@
+env = Environment(tools=['mingw'], CPPPATH=['C:\MinGW\SFML-1.6\include'], LIBPATH=['C:\MinGW\SFML-1.6\lib'])
+env.Program("wind", "wind.cpp", LIBS = ["sfml-system", "sfml-window", "sfml-graphics"])

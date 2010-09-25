@@ -1,0 +1,13 @@
+texture framebuffer
+
+effect
+{
+	// horizontal blur
+	vec4 color = framebuffer(_in);
+	color += framebuffer(_in + vec2(-1.0 / 800.0, 0.0));
+	color += framebuffer(_in + vec2(1.0 / 800.0, 0.0));
+	color += framebuffer(_in + vec2(3.0 / 800.0, 0.0));
+	color += framebuffer(_in + vec2(-3.0 / 800.0, 0.0));
+	_out = color / 5.0;
+}
+
