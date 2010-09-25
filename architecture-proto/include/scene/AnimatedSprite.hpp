@@ -14,7 +14,8 @@ class AnimatedSprite
 		void drawSprite(sf::RenderWindow *window);
 	
 	private:
-		sf::Sprite *sprite; 
+		sf::Image *image;
+		sf::Sprite *sprite;
 };
 
 } // scene namespace

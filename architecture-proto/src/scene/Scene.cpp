@@ -37,6 +37,15 @@ void Scene::deleteSprite(scene::AnimatedSprite * sprite)
 
 void Scene::redraw()
 {
+	// Process events
+	sf::Event event;
+	while (this->window->GetEvent(event))
+	{
+		// Close window : exit
+		/*if (event.Type == sf::Event::Closed)
+			this->window->Close();*/
+	}
+	
 	// Clear the screen
 	this->window->Clear();
 

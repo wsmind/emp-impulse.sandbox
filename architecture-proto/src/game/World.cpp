@@ -39,7 +39,8 @@ void World::run()
 			GameObject *object = i->second;
 			object->update(elapsedTime);
 		}
-		// this->gameScene->redraw();
+		
+		this->gameScene->redraw();
 		//this->running = false;
 	}
 }

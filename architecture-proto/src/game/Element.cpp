@@ -15,7 +15,7 @@ Element::Element(World *world, std::string name)
 	
 	// creating water sprite
 	Scene *gameScene = world->getScene();
-	//AnimatedSprice *sprite = gameScene->createSprite("water.png");
+	AnimatedSprite *sprite = gameScene->createSprite("wave.png");
 }
 
 Element::~Element()
