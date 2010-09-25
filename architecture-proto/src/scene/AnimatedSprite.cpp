@@ -5,16 +5,16 @@ namespace scene {
 
 AnimatedSprite::AnimatedSprite(std::string filename)
 {
-	this->sprite = new sf::Sprite;
+	this->image = new sf::Image;
+	this->image->LoadFromFile(filename);
 	
-	sf::Image image;
-	image.LoadFromFile(filename);
-	this->sprite->SetImage(image);
+	this->sprite = new sf::Sprite(*this->image);
 }
 
 AnimatedSprite::~AnimatedSprite() 
 {
 	delete this->sprite;
+	delete this->image;
 }
 
 void AnimatedSprite::drawSprite(sf::RenderWindow *window)

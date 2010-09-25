@@ -1,7 +1,12 @@
 import os
 if os.name == "nt":
 	t = ["mingw"]
+	cpppath = ["include", "../../dependency-pack/include"]
+	libpath = ["../../dependency-pack/lib/mingw"]
 else:
 	t = ["default"]
+	cpppath = ["include"]
+	libpath = []
 env = Environment(tools = t)
-env.Program("bin/proto", Glob("src/*/*.cpp"), CPPPATH = ["include"], LIBS = ["sfml-system", "sfml-window", "sfml-graphics", "lua5.1"])
+env = Environment(tools = t)
+env.Program("bin/proto", Glob("src/*/*.cpp"), CPPPATH = cpppath, LIBPATH = libpath, LIBS = ["sfml-system", "sfml-window", "sfml-graphics", "lua5.1"])
