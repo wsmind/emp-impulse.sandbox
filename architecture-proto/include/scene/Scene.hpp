@@ -8,6 +8,8 @@
 
 namespace scene {
 
+class InputState;
+
 class Scene
 {
 	public:
@@ -20,21 +22,26 @@ class Scene
 		// opposed to player, elements, tree, etc. which will go to higher level
 		// packages (i.e game).
 		
+		scene::AnimatedSprite *createSprite(std::string filename);
+		void deleteSprite(scene::AnimatedSprite *sprite);
+		
 		// other parameters (here trivial post-processing)
 		void activatePostProcessing(bool enable);
 		void setFadeFactor(float factor); // 0 is not faded, 1 is full black
 		
-		scene::AnimatedSprite *createSprite(std::string filename);
-		void deleteSprite(scene::AnimatedSprite *sprite);
-		
-		// Redraw scene
+		// window-level actions
+		bool pollEvents(); // update input state; return true if the window was closed
 		void redraw();
+		
+		const InputState *getInputState() const;
 		
 	private:
 		//std::list<Node *> nodes;
 		std::list<scene::AnimatedSprite *> sprites;
 		sf::RenderWindow *window;
 		bool postProcess;
+		
+		InputState *inputState;
 };
 
 } // scene namespace

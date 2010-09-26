@@ -6,6 +6,7 @@
 namespace game {
 
 class World;
+class Event;
 
 /// interface
 class GameObject
@@ -13,10 +14,12 @@ class GameObject
 	public:
 		virtual ~GameObject() {}
 		
+		virtual void declareProperties() {}
 		virtual void update(float elapsedTime) {}
-		virtual void executeAction(std::string action) {}
+		virtual void handleEvent(std::string sender, Event *event) {}
 };
 
 } // game namespace
 
 #endif // __GAMEOBjECT_HPP__
+

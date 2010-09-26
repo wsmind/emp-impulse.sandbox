@@ -3,6 +3,8 @@
 
 #include <game/GameObject.hpp>
 
+namespace scene { class AnimatedSprite; }
+
 namespace game {
 
 class World;
@@ -14,15 +16,21 @@ class Element: public GameObject
 		~Element();
 		
 		virtual void update(float elapsedTime);
-		virtual void executeAction(std::string action);
+		virtual void handleEvent(std::string sender, Event *event);
 	
 	private:
 		World *world;
 		std::string name;
+		scene::AnimatedSprite *sprite;
 		
-		float time;
+		float time; // just for regular event sending
+		
+		float x;
+		float y;
+		float yspeed;
 };
 
 } // game namespace
 
 #endif // __ELEMENT_HPP__
+

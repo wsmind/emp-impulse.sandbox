@@ -1,8 +1,10 @@
 #include <game/World.hpp>
 #include <game/GameObject.hpp>
 #include <game/Element.hpp>
+#include <game/Event.hpp>
 #include <scene/Scene.hpp>
 #include <SFML/System.hpp> // shouldn't be there
+#include <iostream>
 
 using namespace scene;
 
@@ -12,14 +14,10 @@ World::World()
 {
 	this->gameScene = new Scene;
 	this->running = true;
-	
-	this->luaState = lua_open();
-	luaL_openlibs(this->luaState);
 }
 
 World::~World()
 {
-	lua_close(this->luaState);
 	delete this->gameScene;
 }
 
@@ -31,6 +29,9 @@ void World::run()
 	{
 		float elapsedTime = clock.GetElapsedTime();
 		clock.Reset();
+		
+		if (this->gameScene->pollEvents())
+			this->running = false;
 		
 		GameObjectMap::iterator i;
 		for (i = this->objects.begin(); i != this->objects.end(); i++)
@@ -47,9 +48,6 @@ void World::run()
 
 void World::loadMap()
 {
-	// load map file
-	luaL_dofile(this->luaState, "level.lua");
-	
 	// create element game object
 	Element *element = new Element(this, "water");
 	this->objects["water"] = element;
@@ -60,21 +58,16 @@ scene::Scene *World::getScene()
 	return this->gameScene;
 }
 
-void World::executeAction(std::string target, std::string action)
+void World::sendEvent(std::string sender, std::string target, Event *event)
 {
+	//std::cout << "World: sending event '" << event->name << "' from " << sender << " to " << target << std::endl;
 	GameObjectMap::iterator i = this->objects.find(target);
 	if (i != this->objects.end())
 	{
 		GameObject *targetObject = i->second;
-		targetObject->executeAction(action);
+		targetObject->handleEvent(sender, event);
 	}
 }
 
-void World::sendEvent(std::string sender, std::string event)
-{
-	std::string luaFunctionName = sender + "_" + event;
-	lua_getglobal(this->luaState, luaFunctionName.c_str());
-	lua_call(this->luaState, 0, 0);
-}
-
 } // game namespace
+
