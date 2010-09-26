@@ -5,7 +5,7 @@ if os.name == "nt":
 	libpath = ["../../dependency-pack/lib/mingw"]
 else:
 	t = ["default"]
-	cpppath = ["include"]
+	cpppath = ["include", "/usr/include/lua5.1"]
 	libpath = []
 env = Environment(tools = t)
 env = Environment(tools = t)
