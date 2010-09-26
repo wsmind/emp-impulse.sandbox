@@ -2,18 +2,35 @@
 #include <scene/InputState.hpp>
 #include <SFML/Graphics.hpp>
 
+#include <iostream>
+
 namespace scene {
 
 Scene::Scene()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode(1024, 768), "Implop");
+	
 	this->postProcess = true;
+	this->postFx = new sf::PostFX;
+	std::string shader =
+		"texture framebuffer\n"
+		"float multiplier\n"
+		"\n"
+		"effect\n"
+		"{\n"
+		"	vec4 color = framebuffer(_in);\n"
+		"	_out = vec4(color.r * multiplier, color.g * multiplier, color.b * multiplier, 1.0);\n"
+		"}\n";
+	this->postFx->LoadFromMemory(shader);
+	this->postFx->SetTexture("framebuffer", NULL);
+	this->setFadeFactor(0.0f);
 	
 	this->inputState = new InputState;
 }
 
 Scene::~Scene()
 {
+	delete this->postFx;
 	delete this->inputState;
 	delete this->window;
 }
@@ -38,6 +55,9 @@ void Scene::activatePostProcessing(bool enable)
 
 void Scene::setFadeFactor(float factor)
 {
+	this->fadeFactor = factor;
+	//std::cout << "changing fade value to " << factor << std::endl;
+	this->postFx->SetParameter("multiplier", 1.0f - fadeFactor);
 }
 
 bool Scene::pollEvents()
@@ -72,6 +92,10 @@ void Scene::redraw()
 	{
 		(*i)->drawSprite(this->window);
 	}
+	
+	// post-process
+	if (this->postProcess)
+		this->window->Draw(*this->postFx);
 
 	// Display window
 	this->window->Display();

@@ -48,8 +48,8 @@ void Element::update(float elapsedTime)
 		this->x += elapsedTime * 400.0f;
 	
 	// gravity
-	this->yspeed += 2.0f * elapsedTime;
-	this->y += this->yspeed;
+	this->yspeed += 1000.0f * elapsedTime;
+	this->y += this->yspeed * elapsedTime;
 	
 	// fake collision test
 	bool collision = false;
@@ -57,11 +57,21 @@ void Element::update(float elapsedTime)
 	{
 		collision = true;
 		this->y = 600.0f;
+		
+		// unfade quickly when we touch the ground
+		Event fadeEvent("unfade");
+		fadeEvent.data["duration"] = Variant::fromNumber(0.1);
+		this->world->sendEvent(this->name, "fader", &fadeEvent);
 	}
 	
 	if (input->jump && collision)
 	{
-		this->yspeed = -1.0f;
+		this->yspeed = -400.0f;
+		
+		// fade the screen when water jumps (stupid, eh?)
+		Event fadeEvent("fade");
+		fadeEvent.data["duration"] = Variant::fromNumber(1.0);
+		this->world->sendEvent(this->name, "fader", &fadeEvent);
 	}
 	
 	// move sprite

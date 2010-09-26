@@ -2,6 +2,7 @@
 #include <game/GameObject.hpp>
 #include <game/Element.hpp>
 #include <game/Event.hpp>
+#include <game/Fader.hpp>
 #include <scene/Scene.hpp>
 #include <SFML/System.hpp> // shouldn't be there
 #include <iostream>
@@ -51,6 +52,10 @@ void World::loadMap()
 	// create element game object
 	Element *element = new Element(this, "water");
 	this->objects["water"] = element;
+	
+	// create fader game object
+	Fader *fader = new Fader(this, "fader");
+	this->objects["fader"] = fader;
 }
 
 scene::Scene *World::getScene()
