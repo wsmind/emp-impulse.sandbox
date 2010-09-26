@@ -3,8 +3,9 @@
 
 #include <list>
 #include <string>
-#include <SFML/Graphics.hpp>
 #include <scene/AnimatedSprite.hpp>
+
+#include <SFML/Graphics.hpp>
 
 namespace scene {
 
@@ -16,12 +17,11 @@ class Scene
 		Scene();
 		~Scene();
 		
-		// node managemnt
+		// node management
 		// everything technical with a position/rotation/scale
 		// by technical i mean non-gameplay objects: sprites, sounds, etc., as
 		// opposed to player, elements, tree, etc. which will go to higher level
 		// packages (i.e game).
-		
 		scene::AnimatedSprite *createSprite(std::string filename);
 		void deleteSprite(scene::AnimatedSprite *sprite);
 		
@@ -36,10 +36,14 @@ class Scene
 		const InputState *getInputState() const;
 		
 	private:
-		//std::list<Node *> nodes;
 		std::list<scene::AnimatedSprite *> sprites;
+		
 		sf::RenderWindow *window;
+		
+		// post effects
 		bool postProcess;
+		float fadeFactor;
+		sf::PostFX *postFx;
 		
 		InputState *inputState;
 };
