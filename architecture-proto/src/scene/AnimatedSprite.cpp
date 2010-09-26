@@ -22,4 +22,9 @@ void AnimatedSprite::drawSprite(sf::RenderWindow *window)
 	window->Draw(*this->sprite);
 }
 
+void AnimatedSprite::setPosition(float x, float y)
+{
+	this->sprite->SetPosition(x, y);
+}
+
 } // scene namespace

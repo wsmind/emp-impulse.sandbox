@@ -12,6 +12,7 @@ class AnimatedSprite
 		AnimatedSprite(std::string filename);
 		~AnimatedSprite();
 		void drawSprite(sf::RenderWindow *window);
+		void setPosition(float x, float y);
 	
 	private:
 		sf::Image *image;
