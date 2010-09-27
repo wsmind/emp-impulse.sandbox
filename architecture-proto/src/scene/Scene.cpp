@@ -80,6 +80,8 @@ bool Scene::pollEvents()
 	this->inputState->right = input.IsKeyDown(sf::Key::Right);
 	this->inputState->jump = input.IsKeyDown(sf::Key::Up);
 	this->inputState->action = input.IsKeyDown(sf::Key::Space);
+	
+	return false;
 }
 
 void Scene::redraw()

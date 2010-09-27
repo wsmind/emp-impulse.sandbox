@@ -23,6 +23,7 @@ Element::Element(World *world, std::string name)
 	
 	this->x = 0.0f;
 	this->y = 0.0f;
+	this->yspeed = 0.0f;
 }
 
 Element::~Element()
