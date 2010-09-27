@@ -7,6 +7,7 @@ namespace game {
 
 class World;
 class Event;
+class FieldDescriptorList;
 
 /// interface
 class GameObject
@@ -14,7 +15,7 @@ class GameObject
 	public:
 		virtual ~GameObject() {}
 		
-		virtual void declareProperties() {}
+		virtual void declareFields(FieldDescriptorList *list) {}
 		virtual void update(float elapsedTime) {}
 		virtual void handleEvent(std::string sender, Event *event) {}
 };

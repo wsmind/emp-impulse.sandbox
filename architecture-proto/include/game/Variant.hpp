@@ -55,7 +55,7 @@ class Variant
 		 * \brief Build a number variant
 		 * \param value the variant value
 		 */
-		static Variant fromNumber(double value);
+		static Variant fromNumber(float value);
 		
 		/**
 		 * \brief Build a string variant
@@ -81,9 +81,9 @@ class Variant
 		
 		bool toBoolean() const;
 		
-		void setNumber(double numberValue);
+		void setNumber(float numberValue);
 		
-		double toNumber() const;
+		float toNumber() const;
 		
 		void setString(std::string stringValue);
 		
@@ -99,7 +99,7 @@ class Variant
 		union
 		{
 			bool booleanValue;
-			double numberValue;
+			float numberValue;
 			std::string *stringValue;
 		};
 };

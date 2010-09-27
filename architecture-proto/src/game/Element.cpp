@@ -1,7 +1,9 @@
 #include <game/Element.hpp>
-#include <game/World.hpp>
-#include <game/Variant.hpp>
+
 #include <game/Event.hpp>
+#include <game/FieldDescriptorList.hpp>
+#include <game/Variant.hpp>
+#include <game/World.hpp>
 #include <scene/AnimatedSprite.hpp>
 #include <scene/Scene.hpp>
 #include <scene/InputState.hpp>
@@ -28,6 +30,13 @@ Element::Element(World *world, std::string name)
 
 Element::~Element()
 {
+}
+
+void Element::declareFields(FieldDescriptorList *list)
+{
+	list->declareNumber("x", &this->x, 0.0f);
+	list->declareNumber("y", &this->y, 0.0f);
+	list->declareNumber("yspeed", &this->yspeed, 0.0f);
 }
 
 void Element::update(float elapsedTime)
