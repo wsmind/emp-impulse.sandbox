@@ -13,6 +13,7 @@ class Fader: public GameObject
 		Fader(World *world, std::string name);
 		~Fader();
 		
+		virtual void declareFields(FieldDescriptorList *list);
 		virtual void update(float elapsedTime);
 		virtual void handleEvent(std::string sender, Event *event);
 	

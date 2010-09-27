@@ -45,7 +45,7 @@ Variant Variant::fromBoolean(bool value)
 	return variant;
 }
 
-Variant Variant::fromNumber(double value)
+Variant Variant::fromNumber(float value)
 {
 	Variant variant;
 	variant.setNumber(value);
@@ -93,7 +93,7 @@ bool Variant::toBoolean() const
 	return false;
 }
 
-void Variant::setNumber(double numberValue) {
+void Variant::setNumber(float numberValue) {
 	if (this->type == STRING) {
 		delete this->stringValue;
 	}
@@ -101,14 +101,14 @@ void Variant::setNumber(double numberValue) {
 	this->numberValue = numberValue;
 }
 
-double Variant::toNumber() const
+float Variant::toNumber() const
 {
 	switch (this->type)
 	{
 		case Variant::NIL: return 0.0;
-		case Variant::BOOLEAN: return (double)this->booleanValue;
+		case Variant::BOOLEAN: return (float)this->booleanValue;
 		case Variant::NUMBER: return this->numberValue;
-		case Variant::STRING: return (double)atof(this->stringValue->c_str());
+		case Variant::STRING: return (float)atof(this->stringValue->c_str());
 	}
 	
 	return 0.0;

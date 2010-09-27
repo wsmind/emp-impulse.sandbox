@@ -8,6 +8,7 @@ namespace scene { class AnimatedSprite; }
 namespace game {
 
 class World;
+class FieldDescriptorList;
 
 class Element: public GameObject
 {
@@ -15,6 +16,7 @@ class Element: public GameObject
 		Element(World *world, std::string name);
 		~Element();
 		
+		virtual void declareFields(FieldDescriptorList *list);
 		virtual void update(float elapsedTime);
 		virtual void handleEvent(std::string sender, Event *event);
 	

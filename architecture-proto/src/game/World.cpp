@@ -3,6 +3,7 @@
 #include <game/Element.hpp>
 #include <game/Event.hpp>
 #include <game/Fader.hpp>
+#include <game/FieldDescriptorList.hpp>
 #include <scene/Scene.hpp>
 #include <SFML/System.hpp> // shouldn't be there
 #include <iostream>
@@ -44,6 +45,37 @@ void World::run()
 		
 		this->gameScene->redraw();
 		//this->running = false;
+	}
+	
+	// test print object state
+	GameObjectMap::iterator i;
+	for (i = this->objects.begin(); i != this->objects.end(); i++)
+	{
+		std::string name = i->first;
+		GameObject *object = i->second;
+		
+		FieldDescriptorList list;
+		list.empty();
+		object->declareFields(&list);
+		
+		std::cout << "Object '" << name << "'" << std::endl;
+		
+		const FieldDescriptorList::FieldDescriptorMap *descriptors = list.getDescriptors();
+		FieldDescriptorList::FieldDescriptorMap::const_iterator j;
+		for (j = descriptors->begin(); j != descriptors->end(); j++)
+		{
+			const FieldDescriptor &desc = j->second;
+			Variant value;
+			switch (desc.type)
+			{
+				case Variant::BOOLEAN: value = Variant::fromBoolean(*(bool *)desc.location); break;
+				case Variant::NUMBER: value = Variant::fromNumber(*(float *)desc.location); break;
+				case Variant::STRING: value = Variant::fromString(*(std::string *)desc.location); break;
+			}
+			std::cout << j->first << " = " << value.toString() << std::endl;
+		}
+		
+		std::cout << std::endl;
 	}
 }
 

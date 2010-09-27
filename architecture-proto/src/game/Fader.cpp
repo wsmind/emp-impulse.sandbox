@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <game/Event.hpp>
+#include <game/FieldDescriptorList.hpp>
 #include <game/World.hpp>
 #include <scene/Scene.hpp>
 
@@ -19,6 +20,12 @@ Fader::Fader(World *world, std::string name)
 
 Fader::~Fader()
 {
+}
+
+void Fader::declareFields(FieldDescriptorList *list)
+{
+	list->declareNumber("fade", &this->fade, 0.0f);
+	list->declareNumber("speed", &this->speed, 0.0f);
 }
 
 void Fader::update(float elapsedTime)
