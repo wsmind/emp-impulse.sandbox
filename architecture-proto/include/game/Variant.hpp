@@ -23,8 +23,7 @@ class Variant
 			NIL,
 			BOOLEAN,
 			NUMBER,
-			STRING,
-			ENTITYID
+			STRING
 		};
 		
 		/**
